@@ -1,0 +1,12 @@
+{
+  "name": "benchmarky",
+  "version": "1.0.0",
+  "description": "A bunch of arbitrary benchmarks and fun scripts written with 0 external packages",
+  "main": "index.js",
+  "repository": "https://github.com/Rayzr522/benchmarky",
+  "author": "Rayzr522",
+  "license": "MIT",
+  "scripts": {
+    "start": "node ."
+  }
+}
