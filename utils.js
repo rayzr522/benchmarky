@@ -40,7 +40,7 @@ exports.wrapTo = (input, length) => {
 
 exports.screenBox = input => boxify(wrapTo(input, process.stdout.columns - 5));
 
-const colWidth = (process.stdout.columns / 4) - 1;
+const colWidth = (process.stdout.columns / 6) - 1;
 exports.pad = str => ` ${str}${' '.repeat(Math.max(0, colWidth - 2 - `${str}`.length))} `;
 exports.cols = cols => cols.map(this.pad).join('|');
 

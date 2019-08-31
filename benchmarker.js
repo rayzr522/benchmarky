@@ -1,7 +1,7 @@
 const { cols, div } = require('./utils');
 
 function printHeader() {
-    console.log(cols('NAME REPEATS AVERAGE TOTAL'.split(' ')));
+    console.log(cols('NAME REP TOTAL AVG LOW HIGH'.split(' ')));
     div();
 }
 
@@ -27,11 +27,31 @@ exports.test = opts => {
     const name = opts.name || '<nameless>';
     const repeats = opts.repeats || 10000;
 
-    const now = process.hrtime();
+    let total = 0;
+    let lowest = 1e9;
+    let lowestIndex = -1;
+    let highest = -1e9;
+    let highestIndex = -1;
 
-    for (var i = 0; i < repeats; i++) {
+    for (let i = 0; i < repeats; i++) {
         try {
+            const start = Date.now();
             opts.run();
+            const end = Date.now();
+
+            const diff = end - start;
+
+            total += diff;
+
+            if (diff < lowest) {
+                lowest = diff;
+                lowestIndex = i;
+            }
+
+            if (diff > highest) {
+                highest = diff;
+                highestIndex = i;
+            }
         } catch (err) {
             div();
             console.error(`[ERROR] Test '${name}' failed on iteration ${i + 1} with the following error:`);
@@ -41,10 +61,7 @@ exports.test = opts => {
         }
     }
 
-    var diff = process.hrtime(now);
+    let avgTime = total / repeats;
 
-    var timeMillis = diff[0] * 1e3 + diff[1] / 1e6;
-    var avgTime = timeMillis / repeats;
-
-    console.log(cols([name, repeats, `${avgTime.toFixed(8)}ms`, `${timeMillis.toFixed(8)}ms`]));
+    console.log(cols([name, repeats, `${total.toFixed(8)}ms`, `${avgTime.toFixed(8)}ms`, `${lowest} (${lowestIndex})`, `${highest} (${highestIndex})`]));
 }

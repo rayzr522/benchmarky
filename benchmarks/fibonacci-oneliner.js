@@ -2,5 +2,5 @@ const fib = count => new Array(count).fill(0).reduce((out, _, i) => out.concat(i
 
 module.exports = {
     run: () => fib(1000),
-    name: 'fibonacci'
+    name: 'fibonacci-oneliner'
 };
